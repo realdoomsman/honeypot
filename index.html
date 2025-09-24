@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚠️ $HONEYPOT — The Honest Honeypot ⚠️</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: 
+        linear-gradient(45deg, #ff0000, #ffff00, #00ff00, #0000ff, #ff00ff, #ff0000),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="20" fill="rgba(255,255,255,0.1)">⚠️ SCAM ⚠️</text></svg>');
+      background-size: 400% 400%, 200px 200px;
+      color: #ffff00;
+      line-height: 1.2;
+      overflow-x: hidden;
+      animation: 
+        rainbow 2s linear infinite,
+        flash 0.3s infinite,
+        shake 0.1s infinite;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 10px,
+          rgba(255,255,255,0.1) 10px,
+          rgba(255,255,255,0.1) 20px
+        );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes flash {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.5); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0px); }
+      25% { transform: translateX(-1px); }
+      75% { transform: translateX(1px); }
+    }
+
+    /* Background Animation */
+    .background-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .honeycomb {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, rgba(77, 166, 255, 0.1), rgba(77, 166, 255, 0.05));
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(77, 166, 255, 0.2);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4da6ff;
+    }
+
+    .logo-blob {
+      width: 40px;
+      height: 30px;
+      background: #4da6ff;
+      border-radius: 50% 30% 60% 40% / 40% 60% 30% 50%;
+      display: flex;
+      align-items: end;
+      justify-content: space-around;
+      padding: 4px;
+      box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
+    }
+
+    .logo-bar {
+      background: #ffffff;
+      width: 3px;
+      border-radius: 2px;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+
+    .hero-logo-blob {
+      width: 120px;
+      height: 80px;
+      background: #4da6ff;
+      border-radius: 50% 30% 60% 40% / 40% 60% 30% 50%;
+      display: flex;
+      align-items: end;
+      justify-content: space-around;
+      padding: 10px;
+      box-shadow: 0 0 30px rgba(77, 166, 255, 0.6);
+      margin: 0 auto;
+    }
+
+    .hero-logo-bar {
+      background: #ffffff;
+      width: 8px;
+      border-radius: 4px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #4da6ff;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    }
+
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 2rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .hero h1 {
+      font-size: 8rem;
+      font-weight: 900;
+      color: #ffff00;
+      margin-bottom: 1rem;
+      text-shadow: 
+        5px 5px 0px #ff0000,
+        10px 10px 0px #00ff00,
+        15px 15px 0px #0000ff,
+        20px 20px 0px #ff00ff,
+        25px 25px 0px #ffff00;
+      animation: 
+        blink 0.2s infinite, 
+        shake 0.05s infinite,
+        rainbow-text 1s linear infinite,
+        bounce 0.5s infinite;
+      transform: rotate(-3deg);
+      border: 8px solid #ff0000;
+      background: 
+        linear-gradient(45deg, #000000, #333333, #000000),
+        repeating-linear-gradient(
+          90deg,
+          #ff0000,
+          #ff0000 10px,
+          #ffff00 10px,
+          #ffff00 20px
+        );
+      padding: 30px;
+      display: inline-block;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero h1::before {
+      content: '⚠️ SCAM ALERT ⚠️';
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      font-size: 1rem;
+      color: #ff0000;
+      background: #ffff00;
+      padding: 5px 10px;
+      border: 2px solid #000000;
+      animation: flash 0.1s infinite;
+    }
+
+    .hero h1::after {
+      content: '💀 HONEYPOT 💀';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      font-size: 1rem;
+      color: #ffff00;
+      background: #ff0000;
+      padding: 5px 10px;
+      border: 2px solid #000000;
+      animation: flash 0.1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.2; }
+    }
+
+    @keyframes rainbow-text {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: rotate(-3deg) translateY(0px); }
+      50% { transform: rotate(-3deg) translateY(-10px); }
+    }
+
+    .tagline {
+      font-size: 3rem;
+      color: #ffff00;
+      margin-bottom: 2rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      text-shadow: 
+        3px 3px 0px #ff0000,
+        6px 6px 0px #00ff00,
+        9px 9px 0px #0000ff,
+        12px 12px 0px #ff00ff;
+      transform: rotate(2deg);
+      animation: 
+        flash 0.1s infinite, 
+        bounce 0.8s infinite,
+        rainbow-text 2s linear infinite,
+        shake 0.05s infinite;
+      background: 
+        linear-gradient(45deg, #000000, #ff0000, #000000),
+        repeating-linear-gradient(
+          45deg,
+          #ffff00,
+          #ffff00 5px,
+          #ff0000 5px,
+          #ff0000 10px
+        );
+      padding: 25px;
+      border: 5px solid #ffff00;
+      font-weight: 900;
+      position: relative;
+      z-index: 10;
+    }
+
+    .tagline::before {
+      content: '🚨 WARNING 🚨';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2rem;
+      color: #ff0000;
+      background: #ffff00;
+      padding: 5px 15px;
+      border: 2px solid #000000;
+      animation: flash 0.1s infinite;
+    }
+
+    .tagline::after {
+      content: '⚠️ SCAM DETECTED ⚠️';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2rem;
+      color: #ffff00;
+      background: #ff0000;
+      padding: 5px 15px;
+      border: 2px solid #000000;
+      animation: flash 0.1s infinite;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 3rem 6rem;
+      background: 
+        linear-gradient(45deg, #ffff00, #ff0000, #ffff00, #ff0000),
+        repeating-linear-gradient(
+          90deg,
+          #000000,
+          #000000 5px,
+          #ffff00 5px,
+          #ffff00 10px
+        );
+      color: #000000;
+      text-decoration: none;
+      border-radius: 0px;
+      font-weight: 900;
+      font-size: 2.5rem;
+      transition: all 0.1s ease;
+      box-shadow: 
+        0 0 0 8px #ff0000, 
+        0 0 0 16px #00ff00, 
+        0 0 0 24px #0000ff,
+        0 0 0 32px #ff00ff,
+        0 0 20px #ffff00;
+      border: 8px solid #000000;
+      text-shadow: 
+        3px 3px 0px #ffff00,
+        6px 6px 0px #ff0000;
+      animation: 
+        flash 0.05s infinite, 
+        shake 0.02s infinite,
+        rainbow-text 0.5s linear infinite,
+        bounce 0.3s infinite;
+      transform: rotate(-2deg);
+      position: relative;
+      z-index: 10;
+    }
+
+    .cta-button::before {
+      content: '⚠️ CLICK TO LOSE MONEY! ⚠️';
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      color: #ff0000;
+      background: #ffff00;
+      padding: 5px 10px;
+      border: 2px solid #000000;
+      animation: flash 0.05s infinite;
+    }
+
+    .cta-button::after {
+      content: '💀 HONEYPOT TRAP 💀';
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      color: #ffff00;
+      background: #ff0000;
+      padding: 5px 10px;
+      border: 2px solid #000000;
+      animation: flash 0.05s infinite;
+    }
+
+    .cta-button:hover {
+      transform: rotate(2deg) scale(1.3);
+      background: 
+        linear-gradient(45deg, #ff0000, #ffff00, #ff0000, #ffff00);
+      color: #ffff00;
+      text-shadow: 
+        3px 3px 0px #ff0000,
+        6px 6px 0px #000000;
+    }
+
+    /* Chart Section */
+    .chart-section {
+      padding: 80px 0;
+      background: #0f0f0f;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 4rem;
+      margin-bottom: 3rem;
+      color: #ffff00;
+      text-shadow: 
+        3px 3px 0px #ff0000,
+        6px 6px 0px #00ff00,
+        9px 9px 0px #0000ff;
+      transform: rotate(-3deg);
+      animation: flash 0.2s infinite, shake 0.1s infinite;
+      background: #000000;
+      padding: 20px;
+      border: 5px solid #ff0000;
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .chart-container {
+      background: #1a1a1a;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(77, 166, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .fake-chart {
+      width: 100%;
+      height: 400px;
+      background: #4da6ff;
+      border-radius: 50% 30% 60% 40% / 40% 60% 30% 50%;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(77, 166, 255, 0.6);
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: end;
+      height: 80%;
+      width: 80%;
+      gap: 15px;
+      justify-content: space-around;
+      padding: 20px;
+    }
+
+    .bar {
+      background: #ffffff;
+      width: 20px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      transform: rotate(-2deg);
+    }
+
+    .bar:nth-child(odd) {
+      transform: rotate(1deg);
+    }
+
+    .bar:nth-child(3n) {
+      transform: rotate(-1deg);
+    }
+
+    .bar:hover {
+      background: #f0f0f0;
+      transform: scaleY(1.1) rotate(0deg);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+
+    .chart-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, 
+        transparent 0%, 
+        transparent 30%, 
+        rgba(255, 255, 255, 0.1) 30%, 
+        rgba(255, 255, 255, 0.1) 70%, 
+        transparent 70%);
+      pointer-events: none;
+    }
+
+    .current-price {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #4da6ff;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+      border: 2px solid rgba(77, 166, 255, 0.3);
+    }
+
+    .chart-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .buy-button {
+      padding: 2rem 4rem;
+      font-size: 2rem;
+      font-weight: 900;
+      background: #ffff00;
+      border: 5px solid #ff0000;
+      border-radius: 0px;
+      color: #ff0000;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      box-shadow: 0 0 0 5px #00ff00, 0 0 0 10px #0000ff;
+      position: relative;
+      overflow: hidden;
+      text-shadow: 2px 2px 0px #000000;
+      animation: flash 0.1s infinite, shake 0.05s infinite;
+      transform: rotate(-2deg);
+    }
+
+    .buy-button:hover {
+      transform: rotate(2deg) scale(1.3);
+      background: #ff0000;
+      color: #ffff00;
+    }
+
+    .buy-button:active {
+      transform: rotate(0deg) scale(0.8);
+    }
+
+    .buy-button::before {
+      content: '⚠️ SCAM ⚠️';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      font-size: 1rem;
+      color: #ff0000;
+      background: #ffff00;
+      padding: 5px;
+      border: 2px solid #000000;
+      animation: flash 0.1s infinite;
+    }
+
+
+    /* Contract Section */
+    .contract-section {
+      padding: 80px 0;
+      background: #0a0a0a;
+    }
+
+    .contract-box {
+      background: #1a1a1a;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(77, 166, 255, 0.2);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contract-address {
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      padding: 1.5rem;
+      border-radius: 20px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 1.2rem;
+      color: #ffffff;
+      margin: 1rem 0;
+      border: 3px solid #ffeb3b;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      text-shadow: 2px 2px 0px #000;
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    .contract-address:hover {
+      background: linear-gradient(45deg, #ff5252, #26a69a);
+      transform: scale(1.05) rotate(-1deg);
+      box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5);
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3); }
+      50% { box-shadow: 0 5px 25px rgba(255, 107, 107, 0.6); }
+    }
+
+    .copy-indicator {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4da6ff;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .copy-indicator.show {
+      opacity: 1;
+    }
+
+    /* Community Section */
+    .community-section {
+      padding: 80px 0;
+      background: #0f0f0f;
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      display: inline-block;
+      padding: 1.2rem 2.5rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+      border: 3px solid #ffeb3b;
+      text-shadow: 2px 2px 0px #000;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .social-link:hover {
+      transform: translateY(-5px) rotate(-2deg) scale(1.1);
+      box-shadow: 0 15px 30px rgba(255, 107, 107, 0.6);
+      background: linear-gradient(45deg, #ff5252, #26a69a, #2196f3);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Footer */
+    footer {
+      background: #0a0a0a;
+      padding: 2rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(77, 166, 255, 0.2);
+    }
+
+    .disclaimer {
+      color: #888;
+      font-size: 0.9rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+      }
+
+      .chart-container {
+        padding: 1rem;
+      }
+
+      #chart {
+        height: 300px;
+      }
+
+
+      .social-links {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-up {
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Animation -->
+  <div class="background-animation" id="backgroundAnimation"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-blob">
+          <div class="logo-bar" style="height: 8px;"></div>
+          <div class="logo-bar" style="height: 12px;"></div>
+          <div class="logo-bar" style="height: 16px;"></div>
+          <div class="logo-bar" style="height: 20px;"></div>
+          <div class="logo-bar" style="height: 24px;"></div>
+        </div>
+        $HONEYPOT
+      </div>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#chart">Chart</a></li>
+        <li><a href="#contract">Contract</a></li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="container">
+      <div class="hero-logo">
+        <div class="hero-logo-blob">
+          <div class="hero-logo-bar" style="height: 20px;"></div>
+          <div class="hero-logo-bar" style="height: 30px;"></div>
+          <div class="hero-logo-bar" style="height: 40px;"></div>
+          <div class="hero-logo-bar" style="height: 50px;"></div>
+          <div class="hero-logo-bar" style="height: 60px;"></div>
+        </div>
+      </div>
+      <h1 class="fade-in">⚠️ $HONEYPOT ⚠️</h1>
+      <p class="tagline fade-in">🍯 THE WORLD'S FIRST HONEST HONEYPOT! 🍯<br>🚀 WE'RE BEING TRANSPARENT! 🚀<br>📈 YOU CAN BUY BUT NEVER SELL! 📈<br>⚠️ THIS IS LITERALLY A HONEYPOT! ⚠️<br>🎭 IT'S SO META IT'S BECOME A MEME! 🎭<br>🚀 BUY IT FOR THE MEMES! 🚀</p>
+      <a href="#chart" class="cta-button slide-up">🍯 BUY THE HONEYPOT! 🍯</a>
+    </div>
+  </section>
+
+  <!-- Chart Section -->
+  <section id="chart" class="chart-section">
+    <div class="container">
+      <h2 class="section-title">📊 FAKE CHART THAT ALWAYS GOES UP 📊</h2>
+      <div class="chart-container">
+        <div id="chart" class="fake-chart">
+          <div class="chart-bars">
+            <div class="bar" style="height: 20%;"></div>
+            <div class="bar" style="height: 25%;"></div>
+            <div class="bar" style="height: 30%;"></div>
+            <div class="bar" style="height: 35%;"></div>
+            <div class="bar" style="height: 40%;"></div>
+            <div class="bar" style="height: 45%;"></div>
+            <div class="bar" style="height: 50%;"></div>
+            <div class="bar" style="height: 55%;"></div>
+            <div class="bar" style="height: 60%;"></div>
+            <div class="bar" style="height: 65%;"></div>
+            <div class="bar" style="height: 70%;"></div>
+            <div class="bar" style="height: 75%;"></div>
+            <div class="bar" style="height: 80%;"></div>
+            <div class="bar" style="height: 85%;"></div>
+            <div class="bar" style="height: 90%;"></div>
+          </div>
+          <div class="chart-line"></div>
+          <div class="current-price">$0.001234</div>
+        </div>
+        <div class="chart-controls">
+          <button class="buy-button" onclick="buyHoneypot()">
+            🍯 BUY THE HONEYPOT! 🍯
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contract Section -->
+  <section id="contract" class="contract-section">
+    <div class="container">
+      <h2 class="section-title">📋 HONEYPOT CONTRACT ADDRESS 📋</h2>
+      <div class="contract-box">
+        <p>🍯 This is literally a honeypot contract! 🍯<br>📈 You can buy but you CAN'T sell! 📈<br>🚀 We're being 100% transparent! 🚀<br>⚠️ Copy and add to your wallet! ⚠️</p>
+        <div class="contract-address" onclick="copyContract()">
+          <div class="copy-indicator" id="copyIndicator">Copied!</div>
+          0x000000000000000000000000000000000000dead
+        </div>
+        <p style="color: #ffff00; font-size: 1.4rem; font-weight: bold; animation: flash 0.1s infinite;">🍯 CLICK TO COPY HONEYPOT ADDRESS! 🍯</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Section -->
+  <section id="community" class="community-section">
+    <div class="container">
+      <h2 class="section-title">🐝 HONEYPOT COMMUNITY 🐝</h2>
+      <p style="font-size: 1.8rem; color: #ffff00; margin-bottom: 2rem; text-shadow: 2px 2px 0px #ff0000; animation: flash 0.2s infinite;">
+        🍯 Join fellow honeypot enthusiasts! 🍯<br>
+        🎭 We all know it's a honeypot but we're here for the memes! 🎭<br>
+        🚀 Come celebrate the meta together! 🚀<br>
+        💀 It's so honest it's legendary! 💀
+      </p>
+      <div class="social-links">
+        <a href="https://x.com/honeypotcoin" target="_blank" class="social-link">
+          🐦 HONEYPOT TWITTER 🐦
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="disclaimer">
+        <p style="font-size: 1.8rem; color: #ffff00; text-shadow: 3px 3px 0px #ff0000; animation: flash 0.1s infinite;">🍯 THIS IS LITERALLY A HONEYPOT! 🍯<br>📈 YOU CAN BUY BUT CAN'T SELL! 📈<br>🎭 WE'RE BEING 100% HONEST! 🎭<br>🚀 IT'S SO META IT'S BECOME A MEME! 🚀</p>
+        <p style="margin-top: 1rem; font-size: 1.4rem; color: #ff0000; animation: flash 0.2s infinite;">⚠️ WARNING: THIS IS A HONEYPOT! ⚠️<br>🍯 WE'RE NOT HIDING IT! 🍯<br>🚀 BUY FOR THE MEMES! 🚀<br>🎭 IT'S SO HONEST IT'S LEGENDARY! 🎭</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Fake chart - simple and always works!
+    let currentPrice = 0.001234;
+    let barCount = 15;
+
+    // Initialize when page loads
+    window.addEventListener('load', function() {
+      console.log('Fake chart loaded!');
+      createBackgroundAnimation();
+      setupNavigation();
+    });
+
+    function buyHoneypot() {
+      console.log('Buy button clicked!');
+      
+      // Increase price (always goes up)
+      const change = Math.random() * 0.05 + 0.01; // 1-6% increase
+      currentPrice = currentPrice * (1 + change);
+      
+      // Add new bar to chart
+      addNewBar();
+      
+      // Update price display
+      updatePriceDisplay();
+      
+      // Button animation
+      const button = document.querySelector('.buy-button');
+      if (button) {
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          button.style.transform = 'scale(1)';
+        }, 150);
+      }
+      
+      // Show notification
+      showNotification('🍯 HONEYPOT PRICE UPDATED! 🍯\n📈 Chart always goes up! 📈\n🚀 Buy more for the memes! 🚀', 'success');
+    }
+
+    function addNewBar() {
+      const chartBars = document.querySelector('.chart-bars');
+      if (!chartBars) return;
+      
+      // Calculate new height (always higher than previous)
+      const bars = chartBars.querySelectorAll('.bar');
+      const lastBar = bars[bars.length - 1];
+      const lastHeight = parseInt(lastBar.style.height);
+      const newHeight = Math.min(95, lastHeight + Math.random() * 5 + 2); // Always higher, max 95%
+      
+      // Create new bar
+      const newBar = document.createElement('div');
+      newBar.className = 'bar';
+      newBar.style.height = newHeight + '%';
+      newBar.style.animation = 'slideIn 0.5s ease-out';
+      
+      // Add to chart
+      chartBars.appendChild(newBar);
+      
+      // Remove oldest bar if we have too many
+      if (bars.length >= 20) {
+        chartBars.removeChild(bars[0]);
+      }
+    }
+
+    function updatePriceDisplay() {
+      const priceElement = document.querySelector('.current-price');
+      if (priceElement) {
+        priceElement.textContent = '$' + currentPrice.toFixed(6);
+        priceElement.style.animation = 'pulse 0.3s ease-out';
+        setTimeout(() => {
+          priceElement.style.animation = '';
+        }, 300);
+      }
+    }
+
+    function createBackgroundAnimation() {
+      const container = document.getElementById('backgroundAnimation');
+      if (!container) return;
+      
+      for (let i = 0; i < 8; i++) {
+        const honeycomb = document.createElement('div');
+        honeycomb.className = 'honeycomb';
+        honeycomb.style.left = Math.random() * 100 + '%';
+        honeycomb.style.animationDelay = Math.random() * 20 + 's';
+        honeycomb.style.animationDuration = (15 + Math.random() * 10) + 's';
+        container.appendChild(honeycomb);
+      }
+    }
+
+    function setupNavigation() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    }
+
+    function copyContract() {
+      const contractAddress = '0x000000000000000000000000000000000000dead';
+      navigator.clipboard.writeText(contractAddress).then(() => {
+        const indicator = document.getElementById('copyIndicator');
+        if (indicator) {
+          indicator.classList.add('show');
+          setTimeout(() => {
+            indicator.classList.remove('show');
+          }, 2000);
+        }
+      });
+    }
+
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(45deg, #ffff00, #ff0000, #ffff00);
+        color: #000000;
+        padding: 2rem 3rem;
+        border-radius: 0px;
+        font-weight: 900;
+        font-size: 1.2rem;
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out, flash 0.1s infinite, shake 0.05s infinite;
+        border: 5px solid #000000;
+        box-shadow: 0 0 0 5px #ff0000, 0 0 0 10px #00ff00, 0 0 20px #ffff00;
+        text-shadow: 2px 2px 0px #ffff00;
+        white-space: pre-line;
+        max-width: 400px;
+      `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => {
+          if (document.body.contains(notification)) {
+            document.body.removeChild(notification);
+          }
+        }, 300);
+      }, 5000);
+    }
+
+    // Add CSS for animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
